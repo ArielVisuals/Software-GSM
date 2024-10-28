@@ -1,13 +1,46 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Form.css";
 
 function Form() {
   const [subscriberNumber, setSubscriberNumber] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [paymentInfo, setPaymentInfo] = useState("");
+  const [confirmPaymentInfo, setConfirmPaymentInfo] = useState("");
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [userData, setUserData] = useState(null);
 
-  const handleSubmit = (e) => {
+  // Simular la obtención de datos de la base de datos
+  useEffect(() => {
+    const fetchUserData = async () => {
+      setIsLoading(true);
+      try {
+        const response = await fetch("/api/get-user-data"); // Ruta de la API que debes configurar
+        const data = await response.json();
+        setUserData(data);
+        setSubscriberNumber(data.subscriberNumber || "");
+        setPaymentInfo(data.paymentInfo || "");
+      } catch (error) {
+        console.error("Error al obtener los datos del usuario:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
+  const handleSubscriberNumberChange = (e) => {
+    const value = e.target.value;
+    setSubscriberNumber(value);
+    // Limpiar mensaje de error si el campo está vacío
+    if (value === "") {
+      setError("");
+    }
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Validaciones
@@ -21,11 +54,44 @@ function Form() {
       return;
     }
 
+    if (paymentInfo !== confirmPaymentInfo) {
+      setError("La información de pago no coincide.");
+      return;
+    }
+
     setError("");
-    // Aquí iría la lógica para el siguiente paso, como enviar los datos al servidor
-    console.log("Número de abonado:", subscriberNumber);
-    console.log("Contraseña:", password);
+
+    // Aquí simularíamos el envío de datos a la base de datos
+    try {
+      const response = await fetch("/api/save-user-data", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          subscriberNumber,
+          password,
+          paymentInfo,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Error al guardar los datos");
+      }
+
+      console.log("Datos guardados correctamente");
+    } catch (error) {
+      console.error("Error al guardar los datos:", error);
+    }
   };
+
+  if (isLoading) {
+    return (
+      <div className="container">
+        <p>Cargando datos...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="container">
@@ -49,7 +115,7 @@ function Form() {
               placeholder="Ejemplo: 5578857424"
               className="input"
               value={subscriberNumber}
-              onChange={(e) => setSubscriberNumber(e.target.value)}
+              onChange={handleSubscriberNumberChange}
             />
           </div>
           <div className="input-container">
@@ -70,6 +136,26 @@ function Form() {
               className="input"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
+            />
+          </div>
+          <div className="input-container">
+            <label className="label">Información de Pago</label>
+            <input
+              type="text"
+              placeholder="Ingresa tu información de pago"
+              className="input"
+              value={paymentInfo}
+              onChange={(e) => setPaymentInfo(e.target.value)}
+            />
+          </div>
+          <div className="input-container">
+            <label className="label">Confirma tu Información de Pago</label>
+            <input
+              type="text"
+              placeholder="Confirma tu información de pago"
+              className="input"
+              value={confirmPaymentInfo}
+              onChange={(e) => setConfirmPaymentInfo(e.target.value)}
             />
           </div>
           <button type="submit" className="button">

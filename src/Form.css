@@ -7,8 +7,8 @@
 }
 
 .card {
-  width: 400px;
-  padding: 60px 30px;
+  width: 350px; /* Reduce el ancho para hacerlo más compacto */
+  padding: 40px 20px; /* Reduce el padding interno */
   border-radius: 1.2rem;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
   background-color: #fff;
@@ -16,25 +16,25 @@
 }
 
 .logo-container {
-  margin-bottom: 25px;
+  margin-bottom: 20px;
 }
 
 .logo {
-  width: 70px;
-  height: 70px;
+  width: 60px; /* Ajusta el tamaño del logo */
+  height: 60px;
 }
 
 .title {
-  font-size: 22px;
+  font-size: 20px; /* Reduce el tamaño de la fuente */
   font-weight: 500;
-  margin-bottom: 25px;
+  margin-bottom: 20px;
   color: #333;
 }
 
 .form {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 15px; /* Reduce el espacio entre los elementos */
 }
 
 .input-container {
@@ -44,26 +44,26 @@
 }
 
 .label {
-  font-size: 16px;
+  font-size: 14px; /* Reduce el tamaño de la fuente */
   color: #333;
-  margin-bottom: 8px;
+  margin-bottom: 5px;
 }
 
 .input {
-  padding: 15px;
+  padding: 10px; /* Reduce el padding interno */
   border-radius: 1.2rem;
   border: 1px solid #ccc;
-  font-size: 16px;
+  font-size: 14px; /* Ajusta el tamaño de la fuente */
   color: #333;
 }
 
 .button {
-  padding: 15px;
+  padding: 12px; /* Reduce el tamaño del botón */
   border-radius: 1.2rem;
   border: none;
   background-color: #007bff;
   color: #fff;
-  font-size: 18px;
+  font-size: 16px; /* Ajusta el tamaño de la fuente del botón */
   font-weight: 500;
   cursor: pointer;
 }
@@ -75,8 +75,8 @@
 }
 
 .footer {
-  margin-top: 25px;
-  font-size: 16px;
+  margin-top: 20px;
+  font-size: 14px;
   color: #666;
 }
 
