@@ -1,0 +1,72 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #f0f8ff; /* Fondo blanco ligeramente azul */
+}
+
+.card {
+  width: 350px; /* Ajuste de ancho similar al de la pantalla 1 */
+  padding: 40px 20px;
+  border-radius: 1.2rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  background-color: #fff;
+  text-align: center;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.label {
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.input {
+  padding: 10px;
+  border-radius: 1.2rem;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  color: #333;
+}
+
+.button {
+  padding: 12px;
+  border-radius: 1.2rem;
+  border: none;
+  background-color: #007bff;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.error {
+  color: red;
+  font-size: 14px;
+  margin-bottom: 15px;
+}
+
+.success {
+  color: green;
+  font-size: 14px;
+  margin-bottom: 15px;
+}

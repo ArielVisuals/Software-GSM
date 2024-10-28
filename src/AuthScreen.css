@@ -1,0 +1,73 @@
+/* Loader de círculos girando */
+.loader {
+  border: 8px solid #f3f3f3; /* Color de fondo del loader */
+  border-top: 8px solid #007bff; /* Color del círculo giratorio */
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 1s linear infinite; /* Animación para hacer que gire */
+  margin: 0 auto; /* Centra el loader */
+  margin-top: 20px;
+}
+
+/* Animación para hacer que el loader gire */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Otros estilos */
+.auth-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.auth-card {
+  width: 400px;
+  padding: 40px 20px;
+  border-radius: 1.2rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  background-color: #fff;
+  text-align: center;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Ajustar el mensaje de éxito para que sea igual al botón pero en verde */
+.auth-message.success {
+  background-color: #4caf50; /* Verde */
+  color: #fff; /* Texto blanco */
+  padding: 12px; /* Igual que el botón */
+  border-radius: 1.2rem; /* Igual que el botón */
+  border: none; /* Sin borde */
+  font-size: 16px; /* Igual que el botón */
+  font-weight: 500; /* Igual que el botón */
+  cursor: pointer; /* Igual que el botón */
+  width: 90%; /* Igual que el botón */
+  margin-top: 20px; /* Espaciado arriba */
+  margin: 0 auto 20px auto; /* Centrado horizontalmente */
+}
+
+/* Estilo del botón */
+.button {
+  padding: 12px;
+  border-radius: 1.2rem;
+  border: none;
+  background-color: #007bff;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  width: 90%; /* Abarcar más espacio horizontalmente */
+  margin-top: 20px;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover {
+  background-color: #0056b3; /* Color al pasar el cursor */
+}
