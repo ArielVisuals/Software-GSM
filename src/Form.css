@@ -1,0 +1,86 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #f0f8ff; /* Blanco ligeramente azul */
+}
+
+.card {
+  width: 400px;
+  padding: 60px 30px;
+  border-radius: 1.2rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  background-color: #fff;
+  text-align: center;
+}
+
+.logo-container {
+  margin-bottom: 25px;
+}
+
+.logo {
+  width: 70px;
+  height: 70px;
+}
+
+.title {
+  font-size: 22px;
+  font-weight: 500;
+  margin-bottom: 25px;
+  color: #333;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.label {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.input {
+  padding: 15px;
+  border-radius: 1.2rem;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  color: #333;
+}
+
+.button {
+  padding: 15px;
+  border-radius: 1.2rem;
+  border: none;
+  background-color: #007bff;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.error {
+  color: red;
+  font-size: 14px;
+  margin-bottom: 15px;
+}
+
+.footer {
+  margin-top: 25px;
+  font-size: 16px;
+  color: #666;
+}
+
+.link {
+  color: #007bff;
+  text-decoration: none;
+}
