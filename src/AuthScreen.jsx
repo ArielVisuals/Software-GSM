@@ -1,31 +1,35 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import "./AuthScreen.css";
 
 function AuthScreen() {
   const [loading, setLoading] = useState(true);
-  const [data, setData] = useState(null);
+  const [userData, setUserData] = useState(null);
   const navigate = useNavigate();
-  const abonadoId = 1; // Simula el ID de abonado, reemplázalo según sea necesario
+  const location = useLocation();
+  const abonadoId = location.state?.abonadoId;
 
   useEffect(() => {
-    // Simula un tiempo de autenticación y luego obtiene los datos del abonado
-    const timer = setTimeout(() => {
-      axios
-        .get(`http://localhost:5001/api/abonado/${abonadoId}`)
-        .then((response) => {
-          setData(response.data); // Guarda los datos en el estado
-          setLoading(false); // Desactiva el loader
-        })
-        .catch((error) => {
-          console.error("Error al obtener los datos:", error);
-          setLoading(false);
-        });
-    }, 2000); // 2 segundos de retraso
+    const fetchUserData = async () => {
+      setLoading(true);
+      try {
+        const response = await axios.get(
+          `http://localhost:5001/api/abonado/${abonadoId}`
+        );
+        setUserData(response.data);
+        console.log("Operador recibido:", response.data.operador); // Verifica el valor de operador
+      } catch (error) {
+        console.error("Error al obtener los datos del usuario:", error);
+      } finally {
+        setTimeout(() => setLoading(false), 2000);
+      }
+    };
 
-    return () => clearTimeout(timer);
-  }, []);
+    if (abonadoId) {
+      fetchUserData();
+    }
+  }, [abonadoId]);
 
   const handleContinue = () => {
     navigate("/servicio");
@@ -41,26 +45,23 @@ function AuthScreen() {
           </div>
         ) : (
           <div className="auth-content">
-            <div className="auth-message success">
-              <p>¡Autenticación exitosa!</p>
+            <div
+              className={`auth-message ${
+                userData?.operador == 2 ? "hlr" : "vlr"
+              }`}
+            >
+              <p>
+                {userData?.operador == 2
+                  ? "Bienvenido como HLR"
+                  : "Bienvenido como VLR"}
+              </p>
             </div>
             <h2>Bienvenido a tu cuenta</h2>
-            {data && (
-              <div className="auth-data">
-                <p>
-                  <strong>BBS:</strong> {data.BBS}
-                </p>
-                <p>
-                  <strong>MNC:</strong> {data.MNC}
-                </p>
-                <p>
-                  <strong>MCC:</strong> {data.MCC}
-                </p>
-                <p>
-                  <strong>Frecuencia:</strong> {data.Frecuencia}
-                </p>
-              </div>
-            )}
+            <div className="auth-data">
+              <p>
+                <strong>Frecuencia:</strong> {userData?.Frecuencia || "N/A"}
+              </p>
+            </div>
             <button className="button" onClick={handleContinue}>
               Continuar
             </button>

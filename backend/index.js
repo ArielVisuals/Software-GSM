@@ -27,18 +27,6 @@ db.connect((err) => {
     }
 });
 
-// Endpoint para consultar todos los abonados
-app.get('/api/abonados', (req, res) => {
-    const sql = 'SELECT * FROM abonado';
-    db.query(sql, (err, results) => {
-        if (err) {
-            res.status(500).send(err);
-        } else {
-            res.json(results);
-        }
-    });
-});
-
 // Endpoint para manejar el inicio de sesión
 app.post('/api/login', (req, res) => {
     const { abonado, contraseña } = req.body;
@@ -50,19 +38,20 @@ app.post('/api/login', (req, res) => {
         }
 
         if (results.length > 0) {
-            // Usuario y contraseña correctos
-            res.json({ success: true, message: 'Acceso permitido' });
+            const user = results[0];
+            res.json({ success: true, message: 'Acceso permitido', estado: user.estado, operador: user.operador });
         } else {
-            // Credenciales incorrectas
             res.json({ success: false, message: 'Número o contraseña incorrectos' });
         }
     });
 });
+
+// Endpoint para obtener los datos completos del abonado
 app.get('/api/abonado/:id', (req, res) => {
     const abonadoId = req.params.id;
 
     const sql = `
-        SELECT a.BBS, a.MNC, a.MCC, f.nombre AS Frecuencia
+        SELECT a.operador, f.nombre AS Frecuencia
         FROM abonado a
         JOIN frecuencia f ON a.frecuencia = f.id
         WHERE a.id = ?
@@ -74,15 +63,15 @@ app.get('/api/abonado/:id', (req, res) => {
         }
         
         if (results.length > 0) {
-            res.json(results[0]); // Retorna solo el primer resultado
+            res.json(results[0]);
         } else {
             res.status(404).json({ error: 'Abonado no encontrado' });
         }
     });
 });
 
-// Iniciar el servidor en el puerto especificado en .env o 5000 como predeterminado
-const PORT = process.env.PORT || 5000;
+// Iniciar el servidor en el puerto especificado en .env o 5001 como predeterminado
+const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => {
     console.log(`Servidor corriendo en el puerto ${PORT}`);
 });

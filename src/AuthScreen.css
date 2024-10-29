@@ -38,22 +38,32 @@
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Ajustar el mensaje de éxito para que sea igual al botón pero en verde */
-.auth-message.success {
-  background-color: #4caf50; /* Verde */
-  color: #fff; /* Texto blanco */
-  padding: 12px; /* Igual que el botón */
-  border-radius: 1.2rem; /* Igual que el botón */
-  border: none; /* Sin borde */
-  font-size: 16px; /* Igual que el botón */
-  font-weight: 500; /* Igual que el botón */
-  cursor: pointer; /* Igual que el botón */
-  width: 90%; /* Igual que el botón */
-  margin-top: 20px; /* Espaciado arriba */
-  margin: 0 auto 20px auto; /* Centrado horizontalmente */
+/* Estilos para mensajes de HLR y VLR */
+.auth-message.hlr {
+  background-color: #4caf50; /* Verde para HLR */
+  color: #fff;
+  padding: 12px;
+  border-radius: 1.2rem;
+  font-size: 16px;
+  font-weight: 500;
+  width: 90%;
+  margin: 0 auto 20px auto;
+  text-align: center;
 }
 
-/* Estilo del botón */
+.auth-message.vlr {
+  background-color: #ff9800; /* Naranja para VLR */
+  color: #fff;
+  padding: 12px;
+  border-radius: 1.2rem;
+  font-size: 16px;
+  font-weight: 500;
+  width: 90%;
+  margin: 0 auto 20px auto;
+  text-align: center;
+}
+
+/* Botón de continuar */
 .button {
   padding: 12px;
   border-radius: 1.2rem;
