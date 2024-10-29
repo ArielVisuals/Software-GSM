@@ -5,7 +5,8 @@ html {
   padding: 0;
   width: 100%;
   height: 100%;
-  background-color: #f0f8ff;
+  font-family: "Roboto", sans-serif; /* Asegúrate de que la fuente Roboto esté importada si es necesario */
+  background-color: #f0f8ff; /* Fondo blanco ligeramente azul */
   overflow: hidden;
 }
 
@@ -14,8 +15,7 @@ html {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
-  background-color: #f0f8ff; /* Fondo blanco ligeramente azul */
+  height: 100vh; /* Asegura que cubra toda la altura */
 }
 
 /* Form Container */
@@ -32,38 +32,6 @@ html {
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
   background-color: #fff;
   text-align: center;
-}
-
-/* Error Message */
-.error {
-  background-color: #ff4d4d;
-  color: #fff !important;
-  padding: 10px;
-  border-radius: 1.2rem;
-  margin-bottom: 15px;
-  font-size: 14px;
-  font-weight: bold;
-  text-align: center;
-}
-
-/* Animación de alerta para errores */
-.animate-alert {
-  animation: shake 0.5s ease; /* Aplicar animación de sacudida */
-}
-
-@keyframes shake {
-  0%,
-  100% {
-    transform: translateX(0);
-  }
-  20%,
-  60% {
-    transform: translateX(-10px);
-  }
-  40%,
-  80% {
-    transform: translateX(10px);
-  }
 }
 
 /* Logo */
@@ -84,11 +52,24 @@ html {
   color: #333;
 }
 
+/* Error Message */
+.error {
+  color: white !important;
+  background-color: red;
+  padding: 10px;
+  border-radius: 1.2rem;
+  margin-top: 10px;
+  font-size: 14px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
 /* Input Fields */
 .input-container {
   display: flex;
   flex-direction: column;
   text-align: left;
+  margin-bottom: 15px;
 }
 
 .label {
@@ -104,9 +85,10 @@ html {
   font-size: 14px;
   color: #333;
   background-color: #fff;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Buttons */
+/* Button */
 .button {
   padding: 12px;
   border-radius: 1.2rem;
@@ -116,13 +98,12 @@ html {
   font-size: 16px;
   font-weight: 500;
   cursor: pointer;
-  width: calc(
-    100% - 20px
-  ); /* Abarcar todo el ancho posible respetando los márgenes */
-  margin: 20px auto 0; /* Centrar el botón horizontalmente y añadir margen superior */
+  width: 90%; /* Ajusta este valor según el ancho deseado */
+  margin: 20px auto 0 auto; /* Centrado horizontalmente */
+  display: block;
   transition: background-color 0.3s ease;
 }
 
 .button:hover {
-  background-color: #0056b3; /* Color al pasar el cursor */
+  background-color: #0056b3;
 }

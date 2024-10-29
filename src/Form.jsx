@@ -1,37 +1,31 @@
 import React, { useState } from "react";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./Form.css";
 
 function Form() {
   const [subscriberNumber, setSubscriberNumber] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [paymentInfo, setPaymentInfo] = useState("");
-  const [confirmPaymentInfo, setConfirmPaymentInfo] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!/^\d{10}$/.test(subscriberNumber)) {
-      setError("El número de abonado debe tener exactamente 10 dígitos.");
-      return;
-    }
+    try {
+      const response = await axios.post("http://localhost:5001/api/login", {
+        abonado: subscriberNumber,
+        contraseña: password,
+      });
 
-    if (password !== confirmPassword) {
-      setError("Las contraseñas no coinciden.");
-      return;
+      if (response.data.success) {
+        navigate("/auth"); // Redirige a la pantalla de autenticación exitosa
+      } else {
+        navigate("/auth-failed"); // Redirige a la pantalla de autenticación fallida
+      }
+    } catch (error) {
+      setError("Error en la conexión con el servidor");
     }
-
-    if (paymentInfo !== confirmPaymentInfo) {
-      setError("La información de pago no coincide.");
-      return;
-    }
-
-    // Si todas las validaciones pasan, redirige a la pantalla de autenticación
-    setError("");
-    navigate("/auth");
   };
 
   return (
@@ -46,10 +40,10 @@ function Form() {
             />
           </div>
           <h2 className="title">
-            Coloca tu número telefónico para acceder a servicios.
+            Coloca tu número telefónico y contraseña para acceder a servicios.
           </h2>
           {error && <p className="error animate-alert">{error}</p>}{" "}
-          {/* Clase para animación */}
+          {/* Muestra el mensaje de error */}
           <form className="form" onSubmit={handleSubmit}>
             <div className="input-container">
               <label className="label">Número de Abonado</label>
@@ -69,36 +63,6 @@ function Form() {
                 className="input"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
-            <div className="input-container">
-              <label className="label">Confirma tu Contraseña</label>
-              <input
-                type="password"
-                placeholder="Repite tu contraseña"
-                className="input"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-              />
-            </div>
-            <div className="input-container">
-              <label className="label">Información de Pago</label>
-              <input
-                type="text"
-                placeholder="Ingresa tu información de pago"
-                className="input"
-                value={paymentInfo}
-                onChange={(e) => setPaymentInfo(e.target.value)}
-              />
-            </div>
-            <div className="input-container">
-              <label className="label">Confirma tu Información de Pago</label>
-              <input
-                type="text"
-                placeholder="Confirma tu información de pago"
-                className="input"
-                value={confirmPaymentInfo}
-                onChange={(e) => setConfirmPaymentInfo(e.target.value)}
               />
             </div>
             <button type="submit" className="button">
