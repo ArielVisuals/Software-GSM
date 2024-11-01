@@ -1,6 +1,8 @@
+// AuthScreen.jsx
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
+import Footer from "./Footer";
 import "./AuthScreen.css";
 
 function AuthScreen() {
@@ -18,7 +20,7 @@ function AuthScreen() {
           `http://localhost:5001/api/abonado/${abonadoId}`
         );
         setUserData(response.data);
-        console.log("Operador recibido:", response.data.operador); // Verifica el valor de operador
+        console.log("Datos recibidos:", response.data);
       } catch (error) {
         console.error("Error al obtener los datos del usuario:", error);
       } finally {
@@ -32,7 +34,7 @@ function AuthScreen() {
   }, [abonadoId]);
 
   const handleContinue = () => {
-    navigate("/servicio");
+    navigate("/servicio", { state: { abonadoId } });
   };
 
   return (
@@ -40,24 +42,39 @@ function AuthScreen() {
       <div className="auth-card">
         {loading ? (
           <div className="auth-loader">
-            <div className="loader"></div> {/* Loader animado */}
-            <p>Autenticando...</p>
+            <div className="loader"></div>
+            <p>Autenticando GSM...</p>
           </div>
         ) : (
           <div className="auth-content">
             <div
               className={`auth-message ${
-                userData?.operador == 2 ? "hlr" : "vlr"
+                userData?.operador === 2 ? "hlr" : "vlr"
               }`}
             >
               <p>
-                {userData?.operador == 2
-                  ? "Bienvenido como HLR"
-                  : "Bienvenido como VLR"}
+                {userData?.operador === 2 ? (
+                  "Bienvenido como HLR"
+                ) : (
+                  <>
+                    Bienvenido como VLR
+                    <br />
+                    Hand OFF de operador
+                  </>
+                )}
               </p>
             </div>
-            <h2>Bienvenido a tu cuenta</h2>
+            <h2>Bienvenido</h2>
             <div className="auth-data">
+              <p>
+                <strong>BSS (LAC):</strong> {userData?.LAC || "N/A"}
+              </p>
+              <p>
+                <strong>Alcaldia:</strong> {userData?.Alcaldia || "N/A"}
+              </p>
+              <p>
+                <strong>Operador:</strong> {userData?.OperadorNombre || "N/A"}
+              </p>
               <p>
                 <strong>Frecuencia:</strong> {userData?.Frecuencia || "N/A"}
               </p>
@@ -68,6 +85,7 @@ function AuthScreen() {
           </div>
         )}
       </div>
+      <Footer />
     </div>
   );
 }

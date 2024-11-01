@@ -1,23 +1,35 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+// App.jsx
+import React, { useState } from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Form from "./Form";
 import AuthScreen from "./AuthScreen";
-import AuthFailed from "./AuthFailed"; // Pantalla de autenticación fallida
 import ServiceForm from "./ServiceForm";
+import ServiceResult from "./ServiceResult";
+import Navbar from "./Navbar"; // Importa la Navbar
+import Footer from "./Footer";
+import About from "./About"; // Importa el componente About
 
 function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+  };
+
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<Form />} />{" "}
-        {/* Pantalla de inicio de sesión */}
-        <Route path="/auth" element={<AuthScreen />} />{" "}
-        {/* Pantalla de autenticación exitosa */}
-        <Route path="/auth-failed" element={<AuthFailed />} />{" "}
-        {/* Pantalla de autenticación fallida */}
-        <Route path="/servicio" element={<ServiceForm />} />{" "}
-        {/* Pantalla de selección de servicio */}
-      </Routes>
+      <Navbar isAuthenticated={isAuthenticated} onLogout={handleLogout} />
+      <div className="content">
+        <Routes>
+          <Route path="/" element={<Form />} />
+          <Route path="/auth" element={<AuthScreen />} />
+          <Route path="/servicio" element={<ServiceForm />} />
+          <Route path="/service-result" element={<ServiceResult />} />
+          <Route path="/about" element={<About />} />{" "}
+          {/* Ruta para Acerca de */}
+        </Routes>
+      </div>
+      <Footer />
     </Router>
   );
 }

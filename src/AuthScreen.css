@@ -36,6 +36,20 @@
   background-color: #fff;
   text-align: center;
   transition: background-color 0.3s ease, color 0.3s ease;
+  animation: fadeInUp 0.5s ease forwards; /* Aceleramos la animación */
+  opacity: 0; /* Para iniciar la animación desde invisibilidad */
+}
+
+/* Animación de entrada para la card */
+@keyframes fadeInUp {
+  0% {
+    transform: translateY(40px); /* Aumentamos el desplazamiento inicial */
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 /* Estilos para mensajes de HLR y VLR */

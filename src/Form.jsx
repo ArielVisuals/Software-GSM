@@ -1,11 +1,13 @@
+// Form.jsx
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Footer from "./Footer";
 import "./Form.css";
 
 function Form() {
   const [subscriberNumber, setSubscriberNumber] = useState("");
-  const [password, setPassword] = useState("");
+  const [unlockCode, setUnlockCode] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
@@ -15,13 +17,10 @@ function Form() {
     try {
       const response = await axios.post("http://localhost:5001/api/login", {
         abonado: subscriberNumber,
-        contraseña: password,
+        desbloqueo: unlockCode,
       });
 
       if (response.data.success) {
-        console.log("Estado del usuario:", response.data.estado); // Verifica el estado en consola
-        console.log("Operador del usuario:", response.data.operador); // Verifica el operador en consola
-
         if (response.data.estado === "010" || response.data.estado === "011") {
           navigate("/auth-failed", {
             state: {
@@ -34,11 +33,12 @@ function Form() {
         }
       } else {
         navigate("/auth-failed", {
-          state: { message: "Número o contraseña incorrectos" },
+          state: { message: "Número o código de desbloqueo incorrectos" },
         });
       }
     } catch (error) {
-      setError("Error en la conexión con el servidor");
+      console.error("Error al conectar con el servidor:", error);
+      setError("Error en la conexión con el servidor. Verifique el servicio.");
     }
   };
 
@@ -54,7 +54,8 @@ function Form() {
             />
           </div>
           <h2 className="title">
-            Coloca tu número telefónico y contraseña para acceder a servicios.
+            Coloca tu número telefónico y código de desbloqueo para acceder a
+            servicios.
           </h2>
           {error && <p className="error animate-alert">{error}</p>}
           <form className="form" onSubmit={handleSubmit}>
@@ -69,14 +70,18 @@ function Form() {
               />
             </div>
             <div className="input-container">
-              <label className="label">Contraseña</label>
-              <input
-                type="password"
-                placeholder="Ingresa tu contraseña"
+              <label className="label">Código de Desbloqueo</label>
+              <select
+                value={unlockCode}
+                onChange={(e) => setUnlockCode(e.target.value)}
                 className="input"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
+              >
+                <option value="">Seleccione un método</option>
+                <option value="1">Huella</option>
+                <option value="2">Patrón</option>
+                <option value="3">Rostro</option>
+                <option value="4">PIN</option>
+              </select>
             </div>
             <button type="submit" className="button">
               Acceder
@@ -84,6 +89,7 @@ function Form() {
           </form>
         </div>
       </div>
+      <Footer /> {/* Agregar el Footer aquí */}
     </div>
   );
 }
