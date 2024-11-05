@@ -2,18 +2,19 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
-import Footer from "./Footer"; // Importa el componente Footer
+import Footer from "./Footer";
 import "./ServiceForm.css";
 
 function ServiceForm() {
   const [servicios, setServicios] = useState([]);
   const [selectedServicio, setSelectedServicio] = useState("");
   const [error, setError] = useState("");
-  const [isVerifying, setIsVerifying] = useState(false); // Estado para el loader
+  const [isVerifying, setIsVerifying] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const abonadoId = location.state?.abonadoId;
-  const ingreso = location.state?.ingreso; // Captura el tipo de ingreso (VLR o HLR)
+  const ingreso = location.state?.ingreso;
+  const planPago = location.state?.planPago;
 
   useEffect(() => {
     if (!abonadoId) {
@@ -44,7 +45,7 @@ function ServiceForm() {
       return;
     }
 
-    setIsVerifying(true); // Activa el loader
+    setIsVerifying(true);
 
     try {
       const response = await axios.post(
@@ -56,36 +57,39 @@ function ServiceForm() {
       );
 
       const { message } = response.data;
-      const selectedServiceName = servicios.find(
-        (servicio) => servicio.id === selectedServicio
-      )?.nombre;
+      const selectedServiceName =
+        servicios.find((servicio) => servicio.id === selectedServicio)
+          ?.nombre || "N/A"; // Captura el nombre del servicio
 
-      // Pausa de 2 segundos para que el loader sea visible
       setTimeout(() => {
         navigate("/service-result", {
           state: {
             abonadoId,
             ingreso,
-            servicio: selectedServiceName,
+            servicio: selectedServiceName, // Pasa el nombre del servicio
+            planPago,
             message,
           },
         });
-        setIsVerifying(false); // Desactiva el loader después de la pausa
+        setIsVerifying(false);
       }, 2000);
     } catch (error) {
       console.error("Error al validar el servicio:", error);
       setError("Error al validar el servicio.");
-      setIsVerifying(false); // Desactiva el loader en caso de error
+      setIsVerifying(false);
     }
   };
 
   return (
     <div className="container">
       <div className={`card ${isVerifying ? "" : "animate-card"}`}>
-        {isVerifying ? ( // Muestra el loader si se está verificando
+        {isVerifying ? (
           <div className="loader-container">
             <div className="loader"></div>
-            <p>Verificando antenas, analizando plan de pago...</p>
+            <p>
+              Verificando disponibilidad de antenas por cobertura, analizando
+              plan de pago...
+            </p>
           </div>
         ) : (
           <>
@@ -112,7 +116,7 @@ function ServiceForm() {
           </>
         )}
       </div>
-      <Footer /> {/* Incluye el footer al final */}
+      <Footer />
     </div>
   );
 }

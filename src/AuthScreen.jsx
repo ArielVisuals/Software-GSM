@@ -36,7 +36,9 @@ function AuthScreen() {
 
   const handleContinue = () => {
     const ingreso = userData?.operador === 2 ? "HLR" : "VLR";
-    navigate("/servicio", { state: { abonadoId, ingreso } });
+    const planPago = userData?.plan_pago || "N/A"; // Obtén el nombre del plan de pago
+
+    navigate("/servicio", { state: { abonadoId, ingreso, planPago } });
   };
 
   return (
@@ -79,6 +81,10 @@ function AuthScreen() {
               </p>
               <p>
                 <strong>Frecuencia:</strong> {userData?.Frecuencia || "N/A"}
+              </p>
+              <p>
+                <strong>Plan de Pago:</strong> {userData?.plan_pago || "N/A"}{" "}
+                {/* Mostrar el nombre del plan de pago */}
               </p>
             </div>
             <button className="button" onClick={handleContinue}>

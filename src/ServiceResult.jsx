@@ -2,26 +2,26 @@
 import React, { useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Footer from "./Footer";
-import { ReportContext } from "./ReportContext"; // Ajuste de la ruta para importar el contexto correctamente
+import { ReportContext } from "./ReportContext";
 import "./ServiceResult.css";
 
 function ServiceResult() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { addReport } = useContext(ReportContext); // Accede a addReport desde el contexto
+  const { addReport } = useContext(ReportContext);
 
-  // Obtén los datos completos desde location.state, o define valores predeterminados si faltan
   const reportData = {
     abonadoId: location.state?.abonadoId || "N/A",
-    ingreso: location.state?.ingreso || "N/A", // VLR o HLR
-    servicio: location.state?.servicio || "N/A", // Servicio solicitado
-    resultado: location.state?.message || "N/A", // Resultado del servicio
+    ingreso: location.state?.ingreso || "N/A",
+    servicio: location.state?.servicio || "N/A", // Confirmación del nombre del servicio
+    planPago: location.state?.planPago || "N/A",
+    resultado: location.state?.message || "N/A",
   };
 
   const handleBackToHome = () => {
-    console.log("Datos del reporte actual:", reportData); // Verifica los datos del reporte
-    addReport(reportData); // Agrega el reporte al historial
-    navigate("/"); // Redirige al inicio
+    console.log("Datos del reporte actual:", reportData);
+    addReport(reportData);
+    navigate("/");
   };
 
   return (

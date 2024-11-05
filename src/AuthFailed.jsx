@@ -15,10 +15,7 @@ function AuthFailed() {
         <div className="auth-message failed">
           <p>¡Autenticación Fallida!</p>
         </div>
-        <h2>
-          No pudimos verificar tus credenciales y/o esta en la lista de EIR como
-          robado o clonado.
-        </h2>
+        <h2>No pudimos verificar tus credenciales</h2>
         <p>Por favor, inténtalo de nuevo.</p>
         <button className="button" onClick={handleRetry}>
           Volver a Intentar

@@ -40,23 +40,43 @@ app.get('/api/abonados', (req, res) => {
     });
 });
 
-// Endpoint para manejar el inicio de sesión
+// Endpoint para manejar el inicio de sesión con verificación de plan de pago
 app.post('/api/login', (req, res) => {
-    const { abonado, desbloqueo } = req.body;
+    const { abonado, desbloqueo, planPago } = req.body;
 
-    const sql = 'SELECT * FROM abonado WHERE id = ? AND desbloqueo = ?';
-    db.query(sql, [abonado, desbloqueo], (err, results) => {
-        if (err) return res.status(500).json({ error: 'Error en el servidor' });
+    const sql = `
+        SELECT a.estado, a.plan_pago
+        FROM abonado a
+        WHERE a.id = ? AND a.desbloqueo = ? AND a.plan_pago = ?
+    `;
+
+    db.query(sql, [abonado, desbloqueo, planPago], (err, results) => {
+        if (err) {
+            console.error("Error en la consulta de la base de datos:", err);
+            return res.status(500).json({ error: 'Error en el servidor al ejecutar la consulta' });
+        }
 
         if (results.length > 0) {
-            // Usuario y desbloqueo correctos
-            res.json({ success: true, estado: results[0].estado });
+            console.log("Usuario, desbloqueo y plan de pago correctos:", results[0]);
+            res.json({ success: true, estado: results[0].estado, plan_pago: results[0].plan_pago });
         } else {
-            // Credenciales incorrectas
-            res.json({ success: false, message: 'Número o desbloqueo incorrecto' });
+            console.warn("No se encontraron coincidencias para los datos proporcionados");
+            res.json({ success: false, message: 'Número, desbloqueo o plan de pago incorrecto' });
         }
     });
 });
+// Endpoint para obtener todos los planes de pago
+app.get('/api/planes', (req, res) => {
+    const sql = 'SELECT id, nombre FROM plan_de_pago';
+    db.query(sql, (err, results) => {
+        if (err) {
+            console.error('Error al obtener los planes de pago:', err);
+            return res.status(500).json({ error: 'Error al obtener los planes de pago' });
+        }
+        res.json(results);
+    });
+});
+
 
 // Endpoint para obtener información del abonado para AuthScreen
 app.get('/api/abonado/:id', (req, res) => {

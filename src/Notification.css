@@ -1,0 +1,83 @@
+/* Notification.css */
+.notification {
+  position: fixed;
+  top: 120px; /* Ajuste la posición más abajo */
+  right: 20px;
+  width: 250px;
+  padding: 15px;
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.8); /* Fondo semitransparente */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Sombra más suave */
+  font-family: "Roboto", sans-serif;
+  z-index: 1000;
+  animation: slideIn 0.5s ease-out;
+  backdrop-filter: blur(6px); /* Desenfoque de fondo para dar efecto de agua */
+  border: 1px solid rgba(255, 255, 255, 0.3); /* Borde suave */
+}
+
+/* Título de la notificación */
+.notification-title {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+/* Texto y listas */
+.notification p,
+.notification ul {
+  font-size: 14px;
+  color: #333;
+  margin: 5px 0;
+  padding: 0;
+}
+
+.notification ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.notification ul li {
+  margin: 3px 0;
+}
+
+/* Botón de cerrar */
+.close-button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: none;
+  border: none;
+  color: #333;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* Animación de entrada */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Animación de salida */
+@keyframes slideOut {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+}
+
+/* Clase para la animación de salida */
+.notification-exit {
+  animation: slideOut 0.5s ease-out forwards;
+}

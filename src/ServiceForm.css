@@ -115,3 +115,6 @@
     transform: rotate(360deg);
   }
 }
+.text-with-line-breaks {
+  white-space: pre-line;
+}

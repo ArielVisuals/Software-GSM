@@ -5,7 +5,7 @@ html {
   padding: 0;
   width: 100%;
   height: 100%;
-  font-family: "Roboto", sans-serif; /* Asegúrate de que la fuente Roboto esté importada si es necesario */
+  font-family: "Roboto", sans-serif;
   background-color: #f0f8ff; /* Fondo blanco ligeramente azul */
   overflow: hidden;
 }
@@ -21,10 +21,12 @@ html {
 /* Form Container */
 .container {
   display: flex;
-  align-items: center;
+  align-items: flex-start; /* Alinea las tarjetas al inicio superior */
   justify-content: center;
+  gap: 20px; /* Espacio entre las tarjetas */
 }
 
+/* Main Card Styles */
 .card {
   width: 350px;
   padding: 40px 20px;
@@ -106,4 +108,30 @@ html {
 
 .button:hover {
   background-color: #0056b3;
+}
+
+/* Info Card Styles */
+.info-card {
+  width: 200px; /* Tamaño más pequeño para la tarjeta informativa */
+  padding: 15px; /* Padding reducido */
+  border-radius: 1.5rem;
+  background-color: #fff;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  text-align: left;
+}
+
+.info-title {
+  font-size: 16px; /* Tamaño de fuente reducido */
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.info-card ul {
+  padding-left: 20px;
+  list-style-type: none;
+}
+
+.info-card ul li {
+  margin-bottom: 5px;
 }
