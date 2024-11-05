@@ -1,3 +1,4 @@
+// ServiceForm.jsx
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -12,6 +13,7 @@ function ServiceForm() {
   const navigate = useNavigate();
   const location = useLocation();
   const abonadoId = location.state?.abonadoId;
+  const ingreso = location.state?.ingreso; // Captura el tipo de ingreso (VLR o HLR)
 
   useEffect(() => {
     if (!abonadoId) {
@@ -54,10 +56,20 @@ function ServiceForm() {
       );
 
       const { message } = response.data;
+      const selectedServiceName = servicios.find(
+        (servicio) => servicio.id === selectedServicio
+      )?.nombre;
 
       // Pausa de 2 segundos para que el loader sea visible
       setTimeout(() => {
-        navigate("/service-result", { state: { message } });
+        navigate("/service-result", {
+          state: {
+            abonadoId,
+            ingreso,
+            servicio: selectedServiceName,
+            message,
+          },
+        });
         setIsVerifying(false); // Desactiva el loader después de la pausa
       }, 2000);
     } catch (error) {

@@ -23,6 +23,7 @@ function AuthScreen() {
         console.log("Datos recibidos:", response.data);
       } catch (error) {
         console.error("Error al obtener los datos del usuario:", error);
+        navigate("/authfailed"); // Redirigir a AuthFailed en caso de error
       } finally {
         setTimeout(() => setLoading(false), 2000);
       }
@@ -31,10 +32,11 @@ function AuthScreen() {
     if (abonadoId) {
       fetchUserData();
     }
-  }, [abonadoId]);
+  }, [abonadoId, navigate]);
 
   const handleContinue = () => {
-    navigate("/servicio", { state: { abonadoId } });
+    const ingreso = userData?.operador === 2 ? "HLR" : "VLR";
+    navigate("/servicio", { state: { abonadoId, ingreso } });
   };
 
   return (

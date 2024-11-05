@@ -1,4 +1,3 @@
-// Form.jsx
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -21,6 +20,13 @@ function Form() {
       });
 
       if (response.data.success) {
+        if (response.data.estado === "100") {
+          navigate("/auth-failed2", {
+            state: { message: "Está en trámite" },
+          });
+          return;
+        }
+
         if (response.data.estado === "010" || response.data.estado === "011") {
           navigate("/auth-failed", {
             state: {
@@ -28,9 +34,10 @@ function Form() {
                 "No se pudo comprobar tus credenciales y/o está en la lista de EIR como robado o clonado.",
             },
           });
-        } else {
-          navigate("/auth", { state: { abonadoId: subscriberNumber } });
+          return;
         }
+
+        navigate("/auth", { state: { abonadoId: subscriberNumber } });
       } else {
         navigate("/auth-failed", {
           state: { message: "Número o código de desbloqueo incorrectos" },
@@ -40,6 +47,10 @@ function Form() {
       console.error("Error al conectar con el servidor:", error);
       setError("Error en la conexión con el servidor. Verifique el servicio.");
     }
+  };
+
+  const handleViewReport = () => {
+    navigate("/history");
   };
 
   return (
@@ -87,9 +98,13 @@ function Form() {
               Acceder
             </button>
           </form>
+          <button className="button" onClick={handleViewReport}>
+            Ver Reporte
+          </button>{" "}
+          {/* Botón para ver el reporte */}
         </div>
       </div>
-      <Footer /> {/* Agregar el Footer aquí */}
+      <Footer />
     </div>
   );
 }
