@@ -65,6 +65,7 @@ app.post('/api/login', (req, res) => {
         }
     });
 });
+
 // Endpoint para obtener todos los planes de pago
 app.get('/api/planes', (req, res) => {
     const sql = 'SELECT id, nombre FROM plan_de_pago';
@@ -76,7 +77,6 @@ app.get('/api/planes', (req, res) => {
         res.json(results);
     });
 });
-
 
 // Endpoint para obtener información del abonado para AuthScreen
 app.get('/api/abonado/:id', (req, res) => {
@@ -107,7 +107,6 @@ app.get('/api/abonado/:id', (req, res) => {
     });
 });
 
-
 // Endpoint para obtener los servicios disponibles
 app.get('/api/servicios', (req, res) => {
     const sql = 'SELECT id, nombre FROM servicio';
@@ -120,6 +119,7 @@ app.get('/api/servicios', (req, res) => {
     });
 });
 
+// Endpoint para validar servicio con restricciones de marca y plan de pago
 app.post('/api/validar-servicio', (req, res) => {
     const { abonadoId, servicioId } = req.body;
 
@@ -131,7 +131,7 @@ app.post('/api/validar-servicio', (req, res) => {
     }
 
     const sqlPlanPago = `
-        SELECT a.plan_pago, s.nombre AS servicioNombre
+        SELECT a.plan_pago, a.marca, s.nombre AS servicioNombre
         FROM abonado a
         JOIN servicio s ON s.id = ?
         WHERE a.id = ?
@@ -144,24 +144,28 @@ app.post('/api/validar-servicio', (req, res) => {
         }
 
         if (results.length > 0) {
-            const { plan_pago, servicioNombre } = results[0];
-            console.log("Plan de pago y servicio obtenidos:", { plan_pago, servicioNombre });
+            const { plan_pago, marca, servicioNombre } = results[0];
+            console.log("Plan de pago, marca y servicio obtenidos:", { plan_pago, marca, servicioNombre });
 
-            let message = 'Accediste al servicio, Esta en cobertura LTE ';
+            let message = 'Accediste al servicio, esta en cobertura LTE.';
             if (plan_pago === 2 && ['100', '101', '110', '111'].includes(servicioId)) {
                 message = 'Tu plan de pago no te permite acceder al servicio';
             } else if (plan_pago === 3 && ['110', '111'].includes(servicioId)) {
                 message = 'Tu plan de pago no te permite acceder al servicio';
             }
 
-            res.json({ message, acceso: !message.includes('no te permite') });
+            // Condición adicional para denegar LTE en marcas 4 y 5
+            if (marca === 4 || marca === 5 && servicioNombre === 'LTE') {
+                message = 'Tu teléfono no te permite utilizar el servicio LTE';
+            }
+
+            res.json({ message, acceso: !message.includes('no te permite'), marca });
         } else {
             console.warn("Usuario o servicio no encontrado");
             res.status(404).json({ error: 'Usuario o servicio no encontrado' });
         }
     });
 });
-
 
 // Iniciar el servidor en el puerto especificado en .env o 5001 como predeterminado
 const PORT = process.env.PORT || 5001;

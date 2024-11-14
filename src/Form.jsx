@@ -41,20 +41,6 @@ function Form() {
 
       // Validación de respuesta y verificación de los tres parámetros en el backend
       if (response.data.success) {
-        if (response.data.estado === "100") {
-          navigate("/service-result", {
-            state: {
-              abonadoId: subscriberNumber,
-              ingreso: "N/A",
-              servicio: "N/A",
-              message:
-                "Sistema lo considera En trámite por lo tanto no accedió",
-              planPago,
-            },
-          });
-          return;
-        }
-
         if (response.data.estado === "010") {
           navigate("/service-result", {
             state: {
@@ -82,7 +68,7 @@ function Form() {
           return;
         }
 
-        // Caso de éxito, redirige con el plan de pago obtenido
+        // Caso de éxito (estado 100), redirige con el plan de pago obtenido
         navigate("/auth", { state: { abonadoId: subscriberNumber, planPago } });
       } else {
         // Error en credenciales o plan de pago no válido

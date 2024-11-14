@@ -56,17 +56,24 @@ function ServiceForm() {
         }
       );
 
-      const { message } = response.data;
+      const { message, marca } = response.data;
       const selectedServiceName =
         servicios.find((servicio) => servicio.id === selectedServicio)
           ?.nombre || "N/A"; // Captura el nombre del servicio
+
+      // Verifica si el abonado tiene marca 4 o 5 y si el servicio seleccionado es LTE
+      if ((marca === 4 || marca === 5) && selectedServiceName === "LTE") {
+        setError("Tu teléfono no te permite utilizar el servicio LTE");
+        setIsVerifying(false);
+        return;
+      }
 
       setTimeout(() => {
         navigate("/service-result", {
           state: {
             abonadoId,
             ingreso,
-            servicio: selectedServiceName, // Pasa el nombre del servicio
+            servicio: selectedServiceName,
             planPago,
             message,
           },
