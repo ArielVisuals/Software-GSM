@@ -25,7 +25,11 @@ function Notification({ onClose }) {
       <button className="close-button" onClick={onClose}>
         ✖
       </button>
+      <h3 className="notification-title">GSM CON LAC 939</h3>
+
+      <h3 className="notification-title">ALCALDIA COYOACAN</h3>
       <h3 className="notification-title">Información de Códigos</h3>
+
       <p>
         <strong>Código de Desbloqueo:</strong>
       </p>

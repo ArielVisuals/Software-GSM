@@ -147,7 +147,7 @@ app.post('/api/validar-servicio', (req, res) => {
             const { plan_pago, servicioNombre } = results[0];
             console.log("Plan de pago y servicio obtenidos:", { plan_pago, servicioNombre });
 
-            let message = 'Accediste al servicio';
+            let message = 'Accediste al servicio, Esta en cobertura LTE ';
             if (plan_pago === 2 && ['100', '101', '110', '111'].includes(servicioId)) {
                 message = 'Tu plan de pago no te permite acceder al servicio';
             } else if (plan_pago === 3 && ['110', '111'].includes(servicioId)) {

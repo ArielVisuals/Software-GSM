@@ -47,7 +47,11 @@ function AuthScreen() {
         {loading ? (
           <div className="auth-loader">
             <div className="loader"></div>
-            <p>Autenticando GSM...</p>
+            <p>
+              Autenticando GSM...
+              <br />
+              Comparando con LAC 939.
+            </p>
           </div>
         ) : (
           <div className="auth-content">
@@ -63,7 +67,15 @@ function AuthScreen() {
                   <>
                     Bienvenido como VLR
                     <br />
-                    Hand OFF de operador
+                    {userData?.operador === 3 ? (
+                      <>
+                        Su operador es de una frecuencia diferente.
+                        <br />
+                        Los vamos a conmutar hacia UMTS.
+                      </>
+                    ) : (
+                      <>Hand OFF de operador</>
+                    )}
                   </>
                 )}
               </p>
@@ -83,8 +95,7 @@ function AuthScreen() {
                 <strong>Frecuencia:</strong> {userData?.Frecuencia || "N/A"}
               </p>
               <p>
-                <strong>Plan de Pago:</strong> {userData?.plan_pago || "N/A"}{" "}
-                {/* Mostrar el nombre del plan de pago */}
+                <strong>Plan de Pago:</strong> {userData?.plan_pago || "N/A"}
               </p>
             </div>
             <button className="button" onClick={handleContinue}>
